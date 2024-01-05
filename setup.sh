@@ -37,8 +37,9 @@ if [[ $# -ne 7 ]]; then
     print_error " - feed bool                       - true or false if you plan to use the live feed"
     print_error " - rid replacement                 - replace the gophish default \"rid\" in phishing URLs with this value"
     print_error " - blacklist bool                  - true or false to use Apache blacklist"
+    print_error " - certpath                        - path to LetsEncrypt certificates on the system"
     print_error "Example:"
-    print_error '  ./setup.sh example.com "accounts myaccount" false https://redirect.com/ true user_id false'
+    print_error '  ./setup.sh example.com "accounts myaccount" false https://redirect.com/ true user_id false /path/to/certs'
 
     exit 2
 fi
@@ -51,18 +52,8 @@ redirect_url="${4}"
 feed_bool="${5}"
 rid_replacement="${6}"
 evilginx_dir=$HOME/.evilginx
-bl_bool="${7}"
-
-# Get path to certificates
-function get_certs_path () {
-    print_info "Run the command below to generate letsencrypt certificates (will need to create two (2) DNS TXT records):"
-    print_info "letsencrypt|certbot certonly --manual --preferred-challenges=dns --email admin@${root_domain} --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d '*.${root_domain}' -d '${root_domain}'"
-    print_info "Once certificates are generated, enter path to certificates:"
-    read -r certs_path
-    if [[ ${certs_path: -1} != "/" ]]; then
-        certs_path+="/"
-    fi
-}
+bl_bool="${7}"S
+certs_path="${8}"
 
 # Install needed dependencies
 function install_depends () {
