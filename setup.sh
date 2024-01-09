@@ -26,7 +26,7 @@ function print_info () {
     echo -e "[${script_name}] \x1B[01;34m[*]\x1B[0m $1"
 }
 
-if [[ $# -ne 7 ]]; then
+if [[ $# -ne 8 ]]; then
     print_error "Missing Parameters:"
     print_error "Usage:"
     print_error './setup <root domain> <subdomain(s)> <root domain bool> <redirect url> <feed bool> <rid replacement> <blacklist bool>'
